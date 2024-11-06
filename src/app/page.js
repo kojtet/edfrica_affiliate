@@ -224,7 +224,7 @@ export default function Home() {
             </Link>
 
             {/* Edit Account Card */}
-            <Link href="/edit-account">
+            <Link href="#">
               <div className="bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg p-6 rounded-3xl shadow-2xl h-full transform transition duration-500 hover:scale-105 hover:bg-brand hover:bg-opacity-20 cursor-pointer flex items-center justify-center">
                 <div className="text-center">
                   <FaUserEdit size={50} className="mx-auto mb-4 text-brand" />
