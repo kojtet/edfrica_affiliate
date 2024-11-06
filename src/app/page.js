@@ -21,6 +21,7 @@ import {
   FaMobileAlt,
   FaChevronRight,
   FaShareAlt,
+  FaTrophy,
 } from "react-icons/fa";
 import Link from "next/link";
 import axios from "axios";
@@ -39,6 +40,7 @@ export default function Home() {
   const [balance, setBalance] = useState(0);
   const [amountWithdrawn, setAmountWithdrawn] = useState(0);
   const [totalCommissions, setTotalCommissions] = useState(0);
+  const [affiliateRanking, setAffiliateRanking] = useState("N/A"); // Placeholder value
 
   useEffect(() => {
     const fetchData = async () => {
@@ -92,6 +94,9 @@ export default function Home() {
 
           setAmountWithdrawn(parseFloat(withdrawnData.total_withdrawn));
 
+          // For now, set a placeholder for Affiliate Ranking
+          setAffiliateRanking("Gold"); // Placeholder value
+
           setIsDataLoading(false);
         } catch (error) {
           console.error("Failed to fetch affiliate details:", error);
@@ -103,7 +108,7 @@ export default function Home() {
 
           setIsDataLoading(false);
         }
-      } else if (!user && !authLoading) {
+      } else if (!authLoading) {
         console.log("No user and not loading. Redirecting to login.");
         router.push("/login");
       }
@@ -130,6 +135,7 @@ export default function Home() {
   }
 
   if (!user) {
+    router.push("/login");
     return null;
   }
 
@@ -183,6 +189,13 @@ export default function Home() {
               <FaHistory size={40} className="text-gray-600 mb-4 mx-auto" />
               <h3 className="text-xl font-semibold text-gray-700">Total Commissions</h3>
               <p className="text-3xl font-bold text-gray-800">{totalCommissions}</p>
+            </div>
+
+            {/* Affiliate Ranking */}
+            <div className="bg-white p-6 rounded-3xl shadow-2xl text-center">
+              <FaTrophy size={40} className="text-yellow-500 mb-4 mx-auto" />
+              <h3 className="text-xl font-semibold text-gray-700">Affiliate Ranking</h3>
+              <p className="text-3xl font-bold text-gray-800">{affiliateRanking}</p>
             </div>
           </div>
         </div>
