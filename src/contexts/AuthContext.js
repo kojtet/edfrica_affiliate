@@ -31,28 +31,24 @@ export const AuthProvider = ({ children }) => {
   };
 
   const login = (data) => {
-    // Extract token and affiliate from response data
     const { token, affiliate } = data;
   
     if (!token || !affiliate) {
       console.error('Token or affiliate data not found in response.');
-      setError('Failed to log in. Please try again.');
       return;
     }
   
     setToken(token);
     localStorage.setItem('token', token);
-  
-    // Decode the token to get additional user info if needed
     const decodedToken = decodeToken(token);
-
   
-    // Set the affiliate data as the user
     setUser(affiliate);
-    setUserID(affiliate.id)
-  
+    setUserID(affiliate.id);
+    
+    console.log("Setting User ID:", affiliate.id); // Debugging log
     router.push('/');
   };
+  
 
   const logout = () => {
     setUser(null);

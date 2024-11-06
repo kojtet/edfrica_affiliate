@@ -27,7 +27,7 @@ import axios from "axios";
 import Loader from "../components/Loader";
 
 export default function Home() {
-  const { user,userID, token, loading: authLoading } = useAuth();
+  const { user, userID, token, loading: authLoading } = useAuth();
   const [isDataLoading, setIsDataLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -42,70 +42,54 @@ export default function Home() {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (user && token) {
+      if (user && userID && token) {
         try {
-          console.log(useAuth())
-          const affiliateId = user.sub;
-          console.log("Affiliate ID:", affiliateId);
+          const affiliateId = userID;
+
           if (!affiliateId) {
             throw new Error('Affiliate ID is missing.');
           }
 
+          const headers = {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          };
+
           // Fetch users brought by the affiliate
           const usersResponse = await axios.get(
-            `https://edfrica-backend-supabase.onrender.com/api/affiliates/users/affiliate/3bb8e95b-ea88-4951-8a5c-faa1b6991916`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json',
-              },
-            }
+            `https://edfrica-backend-supabase.onrender.com/api/affiliates/users/affiliate/${affiliateId}`,
+            { headers }
           );
           const usersData = usersResponse.data;
-          console.log("Users Data:", usersData);
+
           setTotalCustomers(usersData.length);
           setTotalCommissions(usersData.length); // Assuming one commission per user
 
           // Fetch total earnings
           const earningsResponse = await axios.get(
-            `https://edfrica-backend-supabase.onrender.com/api/subscription/earnings/3bb8e95b-ea88-4951-8a5c-faa1b6991916`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json',
-              },
-            }
+            `https://edfrica-backend-supabase.onrender.com/api/subscription/earnings/${affiliateId}`,
+            { headers }
           );
           const earningsData = earningsResponse.data;
-          console.log("Earnings Data:", earningsData);
+
           setAmountEarned(parseFloat(earningsData.total_earnings));
 
           // Fetch current balance
           const balanceResponse = await axios.get(
-            `https://edfrica-backend-supabase.onrender.com/api/subscription/balance/3bb8e95b-ea88-4951-8a5c-faa1b6991916`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json',
-              },
-            }
+            `https://edfrica-backend-supabase.onrender.com/api/subscription/balance/${affiliateId}`,
+            { headers }
           );
           const balanceData = balanceResponse.data;
-          console.log("Balance Data:", balanceData);
+
           setBalance(parseFloat(balanceData.balance));
 
           // Fetch amount withdrawn
           const withdrawnResponse = await axios.get(
-            `https://edfrica-backend-supabase.onrender.com/api/subscription/affiliate/3bb8e95b-ea88-4951-8a5c-faa1b6991916/total-withdrawn`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json',
-              },
-            }
+            `https://edfrica-backend-supabase.onrender.com/api/subscription/affiliate/${affiliateId}/total-withdrawn`,
+            { headers }
           );
           const withdrawnData = withdrawnResponse.data;
-          console.log("Withdrawn Data:", withdrawnData);
+
           setAmountWithdrawn(parseFloat(withdrawnData.total_withdrawn));
 
           setIsDataLoading(false);
@@ -128,7 +112,7 @@ export default function Home() {
     if (!authLoading) {
       fetchData();
     }
-  }, [user, token, authLoading, router]);
+  }, [user, userID, token, authLoading, router]);
 
   if (authLoading || isDataLoading) {
     return <Loader />;
