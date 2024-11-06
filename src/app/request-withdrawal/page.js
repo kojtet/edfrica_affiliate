@@ -30,7 +30,7 @@ export default function RequestWithdrawal() {
   // Additional state variables
   const [accountNumber, setAccountNumber] = useState("");
   const [branch, setBranch] = useState("");
-  const [mobileMoneyProvider, setMobileMoneyProvider] = useState("MTN Mobile Money");
+  const [provider, setProvider] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
 
   const router = useRouter();
@@ -98,21 +98,19 @@ export default function RequestWithdrawal() {
         'Content-Type': 'application/json',
       };
 
+      // Prepare request body with all fields, setting irrelevant ones to null
       const requestBody = {
         affiliate_id: affiliateId,
         modeOfPayment: modeOfPayment,
         amount: parseFloat(amount),
+        account_number: modeOfPayment === "Bank Transfer" ? accountNumber : null,
+        provider: modeOfPayment === "Bank Transfer" ? provider : modeOfPayment === "Mobile Money" ? provider : null,
+        phone_number: modeOfPayment === "Mobile Money" ? phoneNumber : null,
+        branch: modeOfPayment === "Bank Transfer" ? branch : null,
       };
 
-      // Add additional fields based on mode of payment
-      if (modeOfPayment === "Bank Transfer") {
-        requestBody.account_number = accountNumber;
-        requestBody.branch = branch;
-      } else if (modeOfPayment === "Mobile Money") {
-        requestBody.mobile_money_provider = mobileMoneyProvider;
-        requestBody.phone_number = phoneNumber;
-      }
-
+      
+      console.log(requestBody)
       await axios.post(
         `https://edfrica-backend-supabase.onrender.com/api/withdrawals/request`,
         requestBody,
@@ -133,6 +131,7 @@ export default function RequestWithdrawal() {
       setAmount("");
       setAccountNumber("");
       setBranch("");
+      setProvider("");
       setPhoneNumber("");
     } catch (error) {
       console.error("Failed to submit withdrawal request:", error);
@@ -189,7 +188,14 @@ export default function RequestWithdrawal() {
                 </label>
                 <select
                   value={modeOfPayment}
-                  onChange={(e) => setModeOfPayment(e.target.value)}
+                  onChange={(e) => {
+                    setModeOfPayment(e.target.value);
+                    // Reset relevant fields when mode changes
+                    setAccountNumber("");
+                    setBranch("");
+                    setProvider("");
+                    setPhoneNumber("");
+                  }}
                   className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand"
                 >
                   <option value="Bank Transfer">Bank Transfer</option>
@@ -200,6 +206,18 @@ export default function RequestWithdrawal() {
               {/* Conditional Fields */}
               {modeOfPayment === "Bank Transfer" && (
                 <>
+                  <div>
+                    <label className="block text-lg font-medium text-gray-700 mb-2">
+                      Bank Name
+                    </label>
+                    <input
+                      type="text"
+                      value={provider}
+                      onChange={(e) => setProvider(e.target.value)}
+                      required
+                      className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand"
+                    />
+                  </div>
                   <div>
                     <label className="block text-lg font-medium text-gray-700 mb-2">
                       Account Number
@@ -234,10 +252,12 @@ export default function RequestWithdrawal() {
                       Mobile Money Provider
                     </label>
                     <select
-                      value={mobileMoneyProvider}
-                      onChange={(e) => setMobileMoneyProvider(e.target.value)}
+                      value={provider}
+                      onChange={(e) => setProvider(e.target.value)}
                       className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand"
+                      required
                     >
+                      <option value="">Select Provider</option>
                       <option value="MTN Mobile Money">MTN Mobile Money</option>
                       <option value="Telecel Cash">Telecel Cash</option>
                       <option value="Airtel/Tigo Cash">Airtel/Tigo Cash</option>
@@ -260,7 +280,7 @@ export default function RequestWithdrawal() {
 
               <div>
                 <label className="block text-lg font-medium text-gray-700 mb-2">
-                  Amount (GH₵)
+                  Amount ($)
                 </label>
                 <input
                   type="number"
@@ -311,7 +331,7 @@ export default function RequestWithdrawal() {
                         Date Requested
                       </th>
                       <th className="px-6 py-3 border-b-2 border-gray-300 text-left text-lg leading-4 text-gray-700 tracking-wider">
-                        Amount (GH₵)
+                        Amount ($)
                       </th>
                       <th className="px-6 py-3 border-b-2 border-gray-300 text-left text-lg leading-4 text-gray-700 tracking-wider">
                         Mode of Payment
@@ -328,7 +348,7 @@ export default function RequestWithdrawal() {
                           {new Date(request.requested_at).toLocaleDateString()}
                         </td>
                         <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                          GH₵{request.amount.toFixed(2)}
+                          ${request.amount.toFixed(2)}
                         </td>
                         <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                           {request.mode_of_payment}
