@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@keyframes loader1 {
+  0%, 80%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  40% {
+    transform: scale(1.5);
+    opacity: 0.5;
+  }
+}
+
+@keyframes loader2 {
+  0%, 80%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  40% {
+    transform: scale(1.5);
+    opacity: 0.5;
+  }
+}
+
+@keyframes loader3 {
+  0%, 80%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  40% {
+    transform: scale(1.5);
+    opacity: 0.5;
+  }
+}
+
+.animate-loader1 {
+  animation: loader1 1.2s infinite ease-in-out;
+}
+
+.animate-loader2 {
+  animation: loader2 1.2s infinite ease-in-out;
+  animation-delay: 0.4s;
+}
+
+.animate-loader3 {
+  animation: loader3 1.2s infinite ease-in-out;
+  animation-delay: 0.8s;
+}
