@@ -52,6 +52,7 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     setUserID(null);
     setToken(null);
+    setLoading(false); // Add this line
     localStorage.removeItem('token');
     localStorage.removeItem('affiliate');
     router.push('/login');
@@ -67,6 +68,7 @@ export const AuthProvider = ({ children }) => {
         setUser(affiliate);
         setUserID(affiliate.id);
         setToken(storedToken);
+        setLoading(false); // Add this line to ensure loading is false after setting user
       } else {
         logout();
       }
