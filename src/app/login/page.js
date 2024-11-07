@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useState } from 'react';
 import axios from 'axios';
@@ -88,6 +88,13 @@ export default function Login() {
             Login
           </button>
         </form>
+        <div className="text-center mt-6">
+          <Link href="/forgot-password">
+            <span className="text-brand font-medium hover:underline cursor-pointer">
+              Forgot Password?
+            </span>
+          </Link>
+        </div>
         <p className="text-center text-gray-600 mt-6">
           Don't have an account?{' '}
           <Link href="/register">
