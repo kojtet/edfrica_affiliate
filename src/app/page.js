@@ -7,21 +7,12 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import {
-  FaUserEdit,
-  FaCreditCard,
-  FaUsers,
-  FaLock,
-  FaShieldAlt,
-  FaBell,
-  FaTrashAlt,
-  FaHistory,
-  FaGift,
-  FaCcVisa,
-  FaCcStripe,
-  FaMobileAlt,
-  FaChevronRight,
-  FaShareAlt,
-  FaTrophy,
+  FaDollarSign,
+  FaWallet,
+  FaUserFriends,
+  FaRegHandshake,
+  FaMedal,
+  FaBug,
 } from "react-icons/fa";
 import Link from "next/link";
 import axios from "axios";
@@ -94,8 +85,8 @@ export default function Home() {
 
           setAmountWithdrawn(parseFloat(withdrawnData.total_withdrawn));
 
-          // For now, set a placeholder for Affiliate Ranking
-          setAffiliateRanking("Gold"); // Placeholder value
+          // Placeholder for Affiliate Ranking
+          setAffiliateRanking("Gold"); 
 
           setIsDataLoading(false);
         } catch (error) {
@@ -158,42 +149,42 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Balance */}
             <div className="bg-white p-6 rounded-3xl shadow-2xl text-center">
-              <FaCcVisa size={40} className="text-blue-600 mb-4 mx-auto" />
+              <FaWallet size={40} className="text-blue-600 mb-4 mx-auto" />
               <h3 className="text-xl font-semibold text-gray-700">Balance</h3>
               <p className="text-3xl font-bold text-gray-800">${balance.toFixed(2)}</p>
             </div>
 
             {/* Amount Earned */}
             <div className="bg-white p-6 rounded-3xl shadow-2xl text-center">
-              <FaCreditCard size={40} className="text-green-600 mb-4 mx-auto" />
+              <FaDollarSign size={40} className="text-green-600 mb-4 mx-auto" />
               <h3 className="text-xl font-semibold text-gray-700">Amount Earned</h3>
               <p className="text-3xl font-bold text-gray-800">${amountEarned.toFixed(2)}</p>
             </div>
 
             {/* Amount Withdrawn */}
             <div className="bg-white p-6 rounded-3xl shadow-2xl text-center">
-              <FaCcStripe size={40} className="text-indigo-600 mb-4 mx-auto" />
+              <FaDollarSign size={40} className="text-indigo-600 mb-4 mx-auto" />
               <h3 className="text-xl font-semibold text-gray-700">Amount Withdrawn</h3>
               <p className="text-3xl font-bold text-gray-800">${amountWithdrawn.toFixed(2)}</p>
             </div>
 
             {/* Total Customers Brought On */}
             <div className="bg-white p-6 rounded-3xl shadow-2xl text-center">
-              <FaUsers size={40} className="text-brand mb-4 mx-auto" />
+              <FaUserFriends size={40} className="text-brand mb-4 mx-auto" />
               <h3 className="text-xl font-semibold text-gray-700">Total Customers</h3>
               <p className="text-3xl font-bold text-gray-800">{totalCustomers}</p>
             </div>
 
             {/* Total Number of Commissions */}
             <div className="bg-white p-6 rounded-3xl shadow-2xl text-center">
-              <FaHistory size={40} className="text-gray-600 mb-4 mx-auto" />
+              <FaRegHandshake size={40} className="text-gray-600 mb-4 mx-auto" />
               <h3 className="text-xl font-semibold text-gray-700">Total Commissions</h3>
               <p className="text-3xl font-bold text-gray-800">{totalCommissions}</p>
             </div>
 
             {/* Affiliate Ranking */}
             <div className="bg-white p-6 rounded-3xl shadow-2xl text-center">
-              <FaTrophy size={40} className="text-yellow-500 mb-4 mx-auto" />
+              <FaMedal size={40} className="text-yellow-500 mb-4 mx-auto" />
               <h3 className="text-xl font-semibold text-gray-700">Affiliate Ranking</h3>
               <p className="text-3xl font-bold text-gray-800">{affiliateRanking}</p>
             </div>
@@ -207,7 +198,7 @@ export default function Home() {
             <Link href="/request-withdrawal">
               <div className="bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg p-6 rounded-3xl shadow-2xl h-full transform transition duration-500 hover:scale-105 hover:bg-green-100 cursor-pointer flex items-center justify-center">
                 <div className="text-center">
-                  <FaCreditCard size={50} className="mx-auto mb-4 text-green-600" />
+                  <FaDollarSign size={50} className="mx-auto mb-4 text-green-600" />
                   <p className="text-xl font-semibold text-gray-800">Request Withdrawal</p>
                 </div>
               </div>
@@ -217,18 +208,18 @@ export default function Home() {
             <Link href="/view-customers">
               <div className="bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg p-6 rounded-3xl shadow-2xl h-full transform transition duration-500 hover:scale-105 hover:bg-blue-100 cursor-pointer flex items-center justify-center">
                 <div className="text-center">
-                  <FaUsers size={50} className="mx-auto mb-4 text-blue-600" />
+                  <FaUserFriends size={50} className="mx-auto mb-4 text-blue-600" />
                   <p className="text-xl font-semibold text-gray-800">View Customers</p>
                 </div>
               </div>
             </Link>
 
-            {/* Edit Account Card */}
-            <Link href="#">
-              <div className="bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg p-6 rounded-3xl shadow-2xl h-full transform transition duration-500 hover:scale-105 hover:bg-brand hover:bg-opacity-20 cursor-pointer flex items-center justify-center">
+            {/* Log Issue Card */}
+            <Link href="/log-issue">
+              <div className="bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg p-6 rounded-3xl shadow-2xl h-full transform transition duration-500 hover:scale-105 hover:bg-red-100 cursor-pointer flex items-center justify-center">
                 <div className="text-center">
-                  <FaUserEdit size={50} className="mx-auto mb-4 text-brand" />
-                  <p className="text-xl font-semibold text-gray-800">Edit Account</p>
+                  <FaBug size={50} className="mx-auto mb-4 text-red-600" />
+                  <p className="text-xl font-semibold text-gray-800">Log Issue</p>
                 </div>
               </div>
             </Link>
