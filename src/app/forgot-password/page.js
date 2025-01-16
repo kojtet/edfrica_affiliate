@@ -16,7 +16,7 @@ export default function ForgotPassword() {
     setSuccess(false);
 
     try {
-      await axios.post('https://edfrica-backend-supabase.onrender.com/api/affiliates/reset-change-password', { email });
+      await axios.post('https://edfrica-backend-supabase.onrender.com/api/affiliates/reset-password', { email });
       setSuccess(true);
       router.push('/reset-confirmed');
     } catch (error) {
