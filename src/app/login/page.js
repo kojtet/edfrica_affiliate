@@ -43,7 +43,7 @@ export default function Login() {
         {/* Logo */}
         <div className="flex justify-center mb-8">
           <img
-            src="https://www.edfrica.com/images/icon/ed1.png"
+            src="https://www.edfrica.com/images/Edfrica%20Logo.png"
             alt="Logo"
             className="h-20 w-auto"
           />
